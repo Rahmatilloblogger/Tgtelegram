@@ -1,0 +1,20 @@
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build .
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build . --target prepare_cross_compiling
+cd ..
+php SplitSource.php
+cd build
+cmake --build . --target tdjson
+cmake --build . --target tdjson_static
+cd ..
+php SplitSource.php --undo
+add_subdirectory(td)
+target_link_libraries(YourTarget PRIVATE Td::TdStatic)
+find_package(Td 1.7.7 REQUIRED)
+target_link_libraries(YourTarget PRIVATE Td::TdStatic)
+git checkout td/telegram/Client.h td/telegram/Log.h td/tl/TlObject.h
